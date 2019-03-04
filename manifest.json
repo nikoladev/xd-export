@@ -1,11 +1,19 @@
 {
   "id": "ad4d7bf5",
+  "version": "1.0.0",
   "name": "Export only one size",
+  "description": "Export at the scale you need and ONLY at the scale you need",
+  "icons": [
+    {
+      "width": 96,
+      "height": 96,
+      "path": "icon@2x.png"
+    }
+  ],
   "host": {
     "app": "XD",
     "minVersion": "13.0.0"
   },
-  "version": "1.0.0",
   "uiEntryPoints": [
     {
       "type": "menu",
