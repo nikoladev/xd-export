@@ -1,15 +1,15 @@
 {
-  "id": "ID_FROM_IO_CONSOLE",
-  "name": "Export at X scale",
+  "id": "ad4d7bf5",
+  "name": "Export only one size",
   "host": {
     "app": "XD",
     "minVersion": "13.0.0"
   },
-  "version": "0.1.0",
+  "version": "1.0.0",
   "uiEntryPoints": [
     {
       "type": "menu",
-      "label": "Export at X scale",
+      "label": "Export only one size",
       "commandId": "exportAtX",
       "shortcut": {
         "mac": "Cmd+Alt+E",
