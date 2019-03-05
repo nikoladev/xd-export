@@ -1,0 +1,3 @@
+Do you ever need to export something at 3x scale and then find yourself deleting all the 1x and 2x versions?
+
+This plugin lets you choose a scale to export at and then only exports at that scale.
