@@ -30,7 +30,7 @@ async function exportAt(selection, scale) {
         node: item,
         outputFile: file,
         type: application.RenditionType.PNG,
-        scale: 3,
+        scale: scale,
       })
     } catch (e) {
       console.log(e)
