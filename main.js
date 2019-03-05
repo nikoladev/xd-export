@@ -38,10 +38,8 @@ async function exportAt(selection, scale) {
   }))
 
   application.createRenditions(renditionSettings)
-    .then(results => {
-      console.log('All are done')
-    })
-    .catch(error => {
+    // .then((results) => {})
+    .catch((error) => {
       console.log(error)
     })
 }
