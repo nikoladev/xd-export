@@ -1,11 +1,12 @@
 {
+  "releaseNotes": "There was a bug that caused the plugin to only export at 3x scale. That's bad.\n\nNow the plugin actually does what you want!",
   "id": "ad4d7bf5",
   "version": "1.0.2",
   "name": "Export only one size",
   "summary": "Only export the scale you need",
   "description": "Do you ever need to export something at 3x scale and then find yourself deleting all the 1x and 2x versions?\n\nThis plugin lets you choose a scale to export at and then only exports at that scale.\n",
   "author": "Nikola Pilipovic",
-  "website": "https://github.com/nikoladev/xd-export/",
+  "helpUrl": "https://github.com/nikoladev/xd-export/",
   "keywords": [
     "export",
     "scale",
