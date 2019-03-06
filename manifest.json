@@ -1,18 +1,54 @@
 {
   "id": "ad4d7bf5",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "name": "Export only one size",
-  "description": "Export at the scale you need and ONLY at the scale you need",
+  "summary": "Only export the scale you need",
+  "description": "Do you ever need to export something at 3x scale and then find yourself deleting all the 1x and 2x versions?\n\nThis plugin lets you choose a scale to export at and then only exports at that scale.",
+  "author": "Nikola Pilipovic",
+  "website": "https://github.com/nikoladev/xd-export/",
+  "keywords": [
+    "export",
+    "scale",
+    "size",
+    "png",
+    "render",
+    "3x",
+    "2x",
+    "1x",
+    "Export for",
+    "Design",
+    "Web",
+    "iOS",
+    "Android"
+  ],
   "icons": [
+    {
+      "width": 48,
+      "height": 48,
+      "path": "icon.png"
+    },
     {
       "width": 96,
       "height": 96,
       "path": "icon@2x.png"
+    },
+    {
+      "width": 144,
+      "height": 144,
+      "path": "icon@3x.png"
+    },
+    {
+      "width": 192,
+      "height": 192,
+      "path": "icon@4x.png"
     }
+  ],
+  "languages": [
+    "en"
   ],
   "host": {
     "app": "XD",
-    "minVersion": "13.0.0"
+    "minVersion": "13.0"
   },
   "uiEntryPoints": [
     {
