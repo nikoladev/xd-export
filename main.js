@@ -25,11 +25,10 @@ async function exportAt(selection, scale) {
 
   await Promise.all(selection.items.map(async (item) => {
     try {
-      if (scale === 1) {
-        var file = await folder.createFile(`${sanitizeName(item.name)}.png`, { overwrite: true })
-      } else {
-        var file = await folder.createFile(`${sanitizeName(item.name)}@` + scale + `x.png`, { overwrite: true })
-      }
+      const fileName = scale === 1
+        ? `${sanitizeName(item.name)}.png`
+        : `${sanitizeName(item.name)}@${scale}x.png`
+      const file = await folder.createFile(fileName, { overwrite: true })
       renditionSettings.push({
         node: item,
         outputFile: file,
