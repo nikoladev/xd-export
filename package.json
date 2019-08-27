@@ -1,0 +1,5 @@
+{
+	"scripts": {
+		"watch": "xdpm watch --clean --overwrite --which release"
+	}
+}
