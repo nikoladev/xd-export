@@ -126,10 +126,19 @@ function exportDialog() {
 	response.format = 'PNG'
 
 	const closeOptions = {
-		'#cancel': 'reasonCanceled',
-		'#1x': 1,
-		'#2x': 2,
-		'#3x': 3,
+		'#cancel': { cancelled: true },
+		'#1x': {
+			scale: 1,
+			cancelled: false,
+		},
+		'#2x': {
+			scale: 2,
+			cancelled: false,
+		},
+		'#3x': {
+			scale: 3,
+			cancelled: false,
+		},
 	}
 
 	// Listening to the 'close' event is the only way I can set the dialog
@@ -142,24 +151,14 @@ function exportDialog() {
 		// Clicking on a button will prepare the correct response value and then
 		// directly close the dialog
 		dialog.querySelector(key).addEventListener('click', () => {
-			if (key === '#cancel') {
-				response.cancelled = true
-			} else {
-				response.scale = closeOptions[key]
-			}
+			Object.assign(response, closeOptions[key])
 			dialog.close()
 		})
 
 		// Focusing on a button (like when TABbing through the buttons) will prepare
 		// the correct response value when closing the dialog
 		dialog.querySelector(key).addEventListener('focus', (evt) => {
-			if (key === '#cancel') {
-				response.cancelled = true
-			} else {
-				// reset `cancelled` if tabbing through
-				response.cancelled = false
-				response.scale = closeOptions[key]
-			}
+			Object.assign(response, closeOptions[key])
 		})
 	})
 
@@ -180,7 +179,7 @@ function exportDialog() {
 	// - https://adobexdplatform.com/plugin-docs/known-issues.html
 	selectEl.addEventListener('change', (evt) => {
 		selectEl.setAttribute('value', evt.target.value)
-		response.format = evt.target.value
+		Object.assign(response, { format: evt.target.value })
 	})
 
 	document.appendChild(dialog)
