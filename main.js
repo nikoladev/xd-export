@@ -19,21 +19,27 @@ const sanitizeName = (unsanitized) => {
 	return removeTheNotApproved(dashesForSlashes(unsanitized))
 }
 
-async function exportAt(selection, scale) {
+async function exportAt(selection, scale, format) {
 	const renditionSettings = []
 	const folder = await fs.getFolder()
+	const ext = format.toLowerCase()
 
 	await Promise.all(selection.items.map(async (item) => {
 		try {
+			const base = sanitizeName(item.name)
 			const fileName = scale === 1
-				? `${sanitizeName(item.name)}.png`
-				: `${sanitizeName(item.name)}@${scale}x.png`
+				? `${base}.${ext}`
+				: `${base}@${scale}x.${ext}`
 			const file = await folder.createFile(fileName, { overwrite: true })
 			renditionSettings.push({
 				node: item,
 				outputFile: file,
-				type: application.RenditionType.PNG,
+				type: application.RenditionType[format],
 				scale: scale,
+				// quality only matters for JPG
+				quality: format === 'JPG'
+					? 100
+					: undefined,
 			})
 		} catch (e) {
 			console.log(e)
@@ -55,8 +61,31 @@ function exportDialog() {
 	 */
 	const dialog = document.createElement("dialog")
 
+	const selectId = 'select'
 	dialog.innerHTML = `
+		<style type="text/css">
+			.formatChoice {
+				display: flex;
+				justify-content: flex-start;
+				align-items: center;
+			}
+		</style>
 		<form method="dialog">
+			<div class="formatChoice"><span>Exporting as:</span>
+				<select
+					id="${selectId}"
+				>
+					<!-- set to PNG by default by adding "selected" attribute -->
+					<option
+						value="PNG"
+						selected
+					>PNG</option>
+					<option
+						value="JPG"
+					>JPG</option>
+				</select>
+			</div>
+
 			<div>Which scale do you want to export at?</div>
 			<footer>
 				<button
@@ -88,7 +117,14 @@ function exportDialog() {
 		</form>
 	`
 
-	let responseValue
+	let response = {
+		scale: undefined,
+		format: undefined,
+		cancelled: false,
+	}
+	// set to PNG by default
+	response.format = 'PNG'
+
 	const closeOptions = {
 		'#cancel': 'reasonCanceled',
 		'#1x': 1,
@@ -99,21 +135,31 @@ function exportDialog() {
 	// Listening to the 'close' event is the only way I can set the dialog
 	// response when ENTER is pressed (otherwise it's just an empty string)
 	dialog.addEventListener('close', (evt) => {
-		dialog.close(responseValue)
+		dialog.close(response)
 	})
 
 	Object.keys(closeOptions).forEach((key) => {
 		// Clicking on a button will prepare the correct response value and then
 		// directly close the dialog
 		dialog.querySelector(key).addEventListener('click', () => {
-			responseValue = closeOptions[key]
+			if (key === '#cancel') {
+				response.cancelled = true
+			} else {
+				response.scale = closeOptions[key]
+			}
 			dialog.close()
 		})
 
 		// Focusing on a button (like when TABbing through the buttons) will prepare
 		// the correct response value when closing the dialog
 		dialog.querySelector(key).addEventListener('focus', (evt) => {
-			responseValue = closeOptions[key]
+			if (key === '#cancel') {
+				response.cancelled = true
+			} else {
+				// reset `cancelled` if tabbing through
+				response.cancelled = false
+				response.scale = closeOptions[key]
+			}
 		})
 	})
 
@@ -122,8 +168,19 @@ function exportDialog() {
 	dialog.addEventListener('keydown', (evt) => {
 		// capture if ESC key is pressed and set the appropriate response value
 		if (evt.keyCode === 27) {
-			responseValue = 'reasonCanceled'
+			response.cancelled = true
 		}
+	})
+
+	const selectEl = dialog.querySelector(selectId)
+
+	// <select value="…"/> does not show the value as selected. Instead, get a reference to
+	// the element and call setAttribute("value", …) or use the selected attribute on the
+	// option tags.
+	// - https://adobexdplatform.com/plugin-docs/known-issues.html
+	selectEl.addEventListener('change', (evt) => {
+		selectEl.setAttribute('value', evt.target.value)
+		response.format = evt.target.value
 	})
 
 	document.appendChild(dialog)
@@ -168,8 +225,12 @@ async function showDialog(selection) {
 	// close the document.
 	const response = await dialog.showModal()
 
-	if (response !== 'reasonCanceled' && typeof response === 'number') {
-		exportAt(selection, response)
+	if (
+		!response.cancelled &&
+		typeof response.scale === 'number' &&
+		typeof response.format === 'string'
+	) {
+		exportAt(selection, response.scale, response.format)
 	}
 
 	// If the dialog is not explicitly removed it will stay in RAM but won't be
