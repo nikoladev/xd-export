@@ -24,9 +24,14 @@
   ],
   "icons": [
     {
+      "width": 24,
+      "height": 24,
+      "path": "icon@0.5x.png"
+    },
+    {
       "width": 48,
       "height": 48,
-      "path": "icon.png"
+      "path": "icon@1x.png"
     },
     {
       "width": 96,
