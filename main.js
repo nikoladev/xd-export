@@ -25,7 +25,10 @@ async function exportAt(selection, scale) {
 
   await Promise.all(selection.items.map(async (item) => {
     try {
-      const file = await folder.createFile(`${sanitizeName(item.name)}.png`, {overwrite: true})
+      const fileName = scale === 1
+        ? `${sanitizeName(item.name)}.png`
+        : `${sanitizeName(item.name)}@${scale}x.png`
+      const file = await folder.createFile(fileName, { overwrite: true })
       renditionSettings.push({
         node: item,
         outputFile: file,
@@ -128,7 +131,7 @@ function exportDialog() {
   return dialog
 }
 
-function noSelectionDialog () {
+function noSelectionDialog() {
   const dialog = document.createElement("dialog")
 
   dialog.innerHTML = `
