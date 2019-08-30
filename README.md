@@ -25,7 +25,7 @@ design-IV@2x.png   # ❌ needs to be deleted
 design-IV@3x.png   # ✅ this is what we want
 ```
 
-This is a lot of unnecessary manual work. With the _Export only one size_ plugin you would only get the files you need:
+This is a lot of unnecessary manual work. With this plugin you will only get the files you need:
 
 ```bash
 design-I@3x.png
