@@ -96,19 +96,19 @@ function exportDialog() {
 				>Cancel</button>
 
 				<button
-					id="1x"
+					id="btn1x"
 					type="button"
 					uxp-variant="primary"
 				>1x</button>
 
 				<button
-					id="2x"
+					id="btn2x"
 					type="button"
 					uxp-variant="primary"
 				>2x</button>
 
 				<button
-					id="3x"
+					id="btn3x"
 					type="button"
 					uxp-variant="primary"
 					autofocus="autofocus"
@@ -127,15 +127,15 @@ function exportDialog() {
 
 	const closeOptions = {
 		'#cancel': { cancelled: true },
-		'#1x': {
+		'#btn1x': {
 			scale: 1,
 			cancelled: false,
 		},
-		'#2x': {
+		'#btn2x': {
 			scale: 2,
 			cancelled: false,
 		},
-		'#3x': {
+		'#btn3x': {
 			scale: 3,
 			cancelled: false,
 		},
